@@ -58,63 +58,43 @@ void insertAll(vector<int>& vec, int n) {
 	}
 }
 
-bool isOk(vector<int>& a) {
-	int k = (int) a.size();
-	bool ok = true;
-	bool only_inc = true;
-	bool only_dec = true;
-	for(int j = 0; j < k-1; j++){
-		int diff = a[j+1] - a[j];
-		if(diff < 0) {
-            only_inc = false;
-        }
-		if(diff > 0) {
-            only_dec = false;
-        }
-		if(!(1 <= abs(diff) && abs(diff) <= 3)) {
-			ok = false;
-			break;
-		}
-	}
-	return (ok && (only_dec || only_inc));
-}
-
 void solve() {
-	int T = 1000;
-	int ans = 0;
-	while(T--) {
-		vector<int> a;
-		while(true) {
-			int x;
-			scanf("%d", &x);
-			a.push_back(x);
-			char c;
-			scanf("%c", &c);
-			if(c == '\n') {
-                break;
-            }
-		}
-        int k = (int) a.size();
-        bool ok = true;
-        bool only_inc = true;
-        bool only_dec = true;
-        for(int j = 0; j < k-1; j++){
-            int diff = a[j+1] - a[j];
-            if(diff < 0) {
-                only_inc = false;
-            }
-            if(diff > 0) {
-                only_dec = false;
-            }
-            if(!(1 <= abs(diff) && abs(diff) <= 3)) {
-                ok = false;
-                break;
+	string s;
+    char c;
+    while (scanf("%c", &c) != EOF) {
+        s += c;
+    }
+    int n = (int) s.length();
+    auto getNumber = [&](int& i){
+        int x = 0;
+        while (x < 1000 && isdigit(s[i])) {
+            x = x * 10 + (s[i] - 'a');
+            i++;
+        }
+        if(1 <= x && x <= 999) {
+            return x;
+        }
+        return -1;
+    };
+    int ans = 0;
+    bool enable = true;
+    for (int i = 0; i < n; i++) {
+        if (s[i] == 'm') {
+            if (s[i+1] == 'u' && s[i+2] == 'l' && s[i+2] == '(') {
+                i += 4;
+                int a = getNumber(i);
+                if (s[i] == ','){
+                    i += 1;
+                    int b = getNumber(i);
+                    if (s[i] == ')') {
+                        if (a != -1 && b != -1) {
+                            ans += a * b;
+                        }
+                    }
+                }
             }
         }
-        if (ok && (only_dec || only_inc)){
-            ans++;
-        }
-	}
+    }
 	cout << ans;
 }
 
@@ -130,7 +110,7 @@ int main() {
 	int t = 1;
 	// cin >> t;
 	// int ca = 1;
-	while(t-- > 0) {
+	while (t-- > 0) {
 		// cout<<"Case #"<<ca++<<": ";
 		solve();
 		cout << "\n";

@@ -68,11 +68,13 @@ void solve() {
         a.push_back(x);
         b.push_back(y);
     }
-    sort(a.begin(), a.end());
-    sort(b.begin(), b.end());
+    map<int, int> freq;
+    for (int& x: b) {
+        freq[x]++;
+    }
     long long int ans = 0;
-    for (int i = 0; i < N; i++) {
-        ans += abs(a[i] - b[i]);
+    for (int& x: a) {
+        ans += (long long) x * freq[x];
     }
     cout << ans;
 }
